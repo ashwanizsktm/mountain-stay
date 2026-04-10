@@ -59,7 +59,7 @@ export default async function LocationPage({
 		<div className="relative h-[340px] md:h-[430px]">
 			{/* HERO IMAGE */}
 			<Image
-				src="/images/locations/munsiyari-1.webp"
+				src="/images/locations/munsiyari.webp"
 				alt={location.name}
 				fill
 				priority
