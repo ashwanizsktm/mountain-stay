@@ -27,17 +27,18 @@ export default function Navbar() {
           className="md:hidden"
           onClick={() => setOpen(!open)}
         >
-          ☰
+          {open ? '✕' : '☰'}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {open && (
         <div className="md:hidden bg-white shadow-md px-4 pb-4 flex flex-col gap-4">
-          <Link href="/">Home</Link>
-          <Link href="/stays">Stays</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
+          <Link href="/" onClick={() => setOpen(false)}>Home</Link>
+          <Link href="/stays" onClick={() => setOpen(false)}>Stays</Link>
+          <Link href="/about" onClick={() => setOpen(false)}>About</Link>
+          <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
+          <Link href="/faq" onClick={() => setOpen(false)}>FAQs</Link>
         </div>
       )}
     </nav>

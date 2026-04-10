@@ -18,7 +18,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-3xl">
+      <div className="relative top-8 z-10 text-center px-6 max-w-3xl">
         <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-6">
           Handpicked Homestays in <br />
           <span className="text-[var(--color-accent)]">

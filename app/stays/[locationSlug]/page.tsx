@@ -65,13 +65,13 @@ export default async function LocationPage({
 				priority
 				sizes="90vw"
 				quality={90}
-				className="sm:object-cover md:object-cover"
+				className="object-cover"
 			/>
 			{/* GRADIENT OVERLAY */}
 			{/* bg-gradient-to-t from-black/80 via-black/30 to-transparent */}
 			<div className="absolute inset-0" />
 			{/* HERO CONTENT */}
-			<div className="relative z-10 flex flex-col justify-end h-full max-w-6xl mx-auto px-6 pb-16 text-white">
+			<div className="relative top-8 z-10 flex flex-col justify-end h-full max-w-6xl mx-auto px-6 pb-16 text-white">
 				{/* LOCATION BADGE */}
 				<div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-1 rounded-full w-fit mb-4 text-sm">
 					<span>📍</span>
