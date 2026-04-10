@@ -14,7 +14,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   );
   const locationSlug = location?.slug;
   const locationName = location?.name;
-  const rating = property.rating;
+  const rating = property.reviews.rating;
   // Fake rating for now (until real reviews exist)
   // const rating = 4.7;
   return (
