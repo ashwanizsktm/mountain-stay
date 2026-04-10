@@ -1,5 +1,4 @@
 "use client";
-import { Metadata } from "next";
 import { useState } from "react";
 const faqs = [
   {
@@ -33,7 +32,7 @@ const faqs = [
       "Guests can cancel their booking free of charge up to 24 hours before check-in.",
   },
 ];
-export const metadata: Metadata = {
+export const metadata = {
   title: "FAQs",
   description:
     "Find answers to common questions about booking homestays, travel, and services offered by Mountain Stays.",
