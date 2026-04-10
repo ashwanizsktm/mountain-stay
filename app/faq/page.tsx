@@ -32,11 +32,11 @@ const faqs = [
       "Guests can cancel their booking free of charge up to 24 hours before check-in.",
   },
 ];
-export const metadata = {
-  title: "FAQs",
-  description:
-    "Find answers to common questions about booking homestays, travel, and services offered by Mountain Stays.",
-};
+// export const metadata = {
+//   title: "FAQs",
+//   description:
+//     "Find answers to common questions about booking homestays, travel, and services offered by Mountain Stays.",
+// };
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
