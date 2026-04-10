@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #1E3A3A;
+  --color-accent: #C2A878;
+  --color-soft: #F8F7F4;
+}
+
+body {
+  background-color: var(--color-soft);
+}
+
+/* hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
