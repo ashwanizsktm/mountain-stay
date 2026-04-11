@@ -6,7 +6,7 @@ import { LayoutGrid } from "lucide-react";
 
 type ImageType = {
   src: string;
-  blurDataURL?: string; // optional for blur placeholder
+  blurDataURL?: string;
 };
 
 export default function PropertyGallery({ images }: { images: ImageType[] }) {
@@ -20,7 +20,7 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
   const prev = () =>
     setActiveIndex((prev) => (prev - 1 + images.length) % images.length);
 
-  /* Keyboard navigation */
+  /* Keyboard */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (!lightbox) return;
@@ -40,7 +40,6 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
-
     const diff = touchStartX.current - e.changedTouches[0].clientX;
 
     if (diff > 50) next();
@@ -49,44 +48,85 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
     touchStartX.current = null;
   };
 
+  const remainingCount = images.length - 5;
+
   return (
     <div className="max-w-6xl mx-auto px-4 pt-6">
 
-      {/* 📱 MOBILE CAROUSEL */}
-      <div
-        className="md:hidden relative"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div className="relative mt-3 w-full h-[390px] rounded-xl overflow-hidden">
+      {/* 📱 MOBILE */}
+      <div className="md:hidden mt-3 space-y-2">
+        
+        {/* BIG IMAGE */}
+        <div
+          className="relative w-full h-[380px] rounded-xl overflow-hidden"
+          onClick={() => {
+            setActiveIndex(0);
+            setLightbox(true);
+          }}
+        >
           <Image
-            src={images[activeIndex].src}
-            alt="Property Image"
+            src={images[0]?.src}
+            alt="Main Image"
             fill
-            priority={activeIndex === 0}
-            placeholder={images[activeIndex].blurDataURL ? "blur" : "empty"}
-            blurDataURL={images[activeIndex].blurDataURL}
+            priority
             className="object-cover"
             sizes="100vw"
-            onClick={() => setLightbox(true)}
           />
+
+          <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+            1 / {images.length}
+          </div>
         </div>
 
-        {/* Dots */}
-        <div className="absolute bottom-3 w-full flex justify-center gap-1">
-          {images.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all ${
-                activeIndex === i ? "w-4 bg-white" : "w-2 bg-white/50"
-              }`}
-            />
-          ))}
+        {/* GRID */}
+        <div className="grid grid-cols-2 gap-2">
+          {images.slice(1, 5).map((img, i) => {
+            const isLast = i === 3;
+
+            return (
+              <div
+                key={i}
+                className="relative h-[120px] rounded-xl overflow-hidden"
+                onClick={() => {
+                  setActiveIndex(i + 1);
+                  setLightbox(true);
+                }}
+              >
+                <Image
+                  src={img.src}
+                  alt={`Image ${i}`}
+                  fill
+                  className="object-cover"
+                  sizes="50vw"
+                />
+
+                {/* +COUNT OVERLAY */}
+                {isLast && remainingCount > 0 && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-lg font-semibold">
+                    +{remainingCount}
+                  </div>
+                )}
+
+                {/* GRID ICON */}
+                {isLast && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLightbox(true);
+                    }}
+                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur p-2 rounded-lg shadow hover:scale-105 transition"
+                  >
+                    <LayoutGrid className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
-      {/* 💻 DESKTOP GRID */}
-      <div className="hidden mt-3 md:grid grid-cols-4 grid-rows-2 gap-2 h-[460px] rounded-xl overflow-hidden relative">
 
+      {/* 💻 DESKTOP */}
+      <div className="hidden mt-3 md:grid grid-cols-4 grid-rows-2 gap-2 h-[460px] rounded-xl overflow-hidden">
         {/* BIG IMAGE */}
         <div className="col-span-2 row-span-2 relative group">
           <Image
@@ -94,8 +134,8 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
             alt="Main Image"
             fill
             priority
-            className="object-cover cursor-pointer transition duration-300 group-hover:brightness-95"
-            sizes="(min-width: 768px) 50vw"
+            className="object-cover cursor-pointer group-hover:brightness-95 transition"
+            sizes="50vw"
             onClick={() => {
               setActiveIndex(0);
               setLightbox(true);
@@ -104,29 +144,48 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
         </div>
 
         {/* SIDE IMAGES */}
-        {images.slice(1, 5).map((img, i) => (
-          <div key={i} className="relative group">
-            <Image
-              src={img.src}
-              alt={`Image ${i}`}
-              fill
-              className="object-cover cursor-pointer transition duration-300 group-hover:brightness-95"
-              sizes="(min-width: 768px) 25vw"
+        {images.slice(1, 5).map((img, i) => {
+          const isLast = i === 3;
+
+          return (
+            <div
+              key={i}
+              className="relative group"
               onClick={() => {
                 setActiveIndex(i + 1);
                 setLightbox(true);
               }}
-            />
-          </div>
-        ))}
+            >
+              <Image
+                src={img.src}
+                alt={`Image ${i}`}
+                fill
+                className="object-cover cursor-pointer group-hover:brightness-95 transition"
+                sizes="25vw"
+              />
 
-        {/* SHOW ALL BUTTON */}
-        <button
-          onClick={() => setLightbox(true)}
-          className="absolute cursor-pointer bottom-4 right-4 bg-white text-sm font-medium px-4 py-2 rounded-lg shadow hover:shadow-md transition"
-        >
-          <LayoutGrid />
-        </button>
+              {/* +COUNT OVERLAY */}
+              {isLast && remainingCount > 0 && (
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-xl font-semibold">
+                  +{remainingCount}
+                </div>
+              )}
+
+              {/* GRID ICON */}
+              {isLast && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightbox(true);
+                  }}
+                  className="absolute cursor-pointer bottom-3 right-3 bg-white p-2 rounded-lg shadow hover:scale-105 transition"
+                >
+                  <LayoutGrid className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* 🔍 LIGHTBOX */}
@@ -136,25 +195,13 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* HEADER */}
           <div className="flex justify-between items-center p-4 text-white">
-            <span className="text-sm">
-              {activeIndex + 1} / {images.length}
-            </span>
-            <button
-              onClick={() => setLightbox(false)}
-              className="text-2xl cursor-pointer"
-            >
-              ✕
-            </button>
+            <span>{activeIndex + 1} / {images.length}</span>
+            <button onClick={() => setLightbox(false)}>✕</button>
           </div>
 
-          {/* IMAGE VIEW */}
           <div className="flex-1 flex items-center justify-center relative">
-            <button
-              onClick={prev}
-              className="absolute cursor-pointer left-6 text-white text-4xl opacity-70 hover:opacity-100"
-            >
+            <button onClick={prev} className="absolute cursor-pointer left-6 text-white text-4xl">
               ‹
             </button>
 
@@ -164,37 +211,24 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
                 alt="Preview"
                 fill
                 className="object-contain"
-                sizes="90vw"
               />
             </div>
 
-            <button
-              onClick={next}
-              className="absolute cursor-pointer right-6 text-white text-4xl opacity-70 hover:opacity-100"
-            >
+            <button onClick={next} className="absolute cursor-pointer right-6 text-white text-4xl">
               ›
             </button>
           </div>
 
-          {/* THUMBNAILS */}
           <div className="flex gap-2 overflow-x-auto p-4 bg-black">
             {images.map((img, i) => (
               <div
                 key={i}
-                className={`relative h-16 w-24 flex-shrink-0 cursor-pointer rounded-md overflow-hidden ${
-                  activeIndex === i
-                    ? "ring-2 ring-white"
-                    : "opacity-60"
-                }`}
                 onClick={() => setActiveIndex(i)}
+                className={`relative h-16 w-24 flex-shrink-0 rounded-md overflow-hidden cursor-pointer ${
+                  activeIndex === i ? "ring-2 ring-white" : "opacity-60"
+                }`}
               >
-                <Image
-                  src={img.src}
-                  alt={`Thumb ${i}`}
-                  fill
-                  className="object-cover"
-                  sizes="96px"
-                />
+                <Image src={img.src} alt={`Thumb ${i}`} fill className="object-cover" />
               </div>
             ))}
           </div>
