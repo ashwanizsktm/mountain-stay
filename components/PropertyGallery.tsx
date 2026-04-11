@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 
 type ImageType = {
   src: string;
-  label: string;
+  blurDataURL?: string; // optional for blur placeholder
 };
 
 export default function PropertyGallery({ images }: { images: ImageType[] }) {
@@ -22,7 +23,6 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (!lightbox) return;
-
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "Escape") setLightbox(false);
@@ -32,7 +32,7 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
     return () => window.removeEventListener("keydown", handler);
   }, [lightbox]);
 
-  /* Swipe support */
+  /* Swipe */
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -44,96 +44,160 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
 
     if (diff > 50) next();
     if (diff < -50) prev();
+
     touchStartX.current = null;
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 pt-10">
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* MAIN IMAGE */}
-        <div
-          className="relative md:w-[78%] w-full group"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <img
+    <div className="max-w-6xl mx-auto px-4 pt-6">
+
+      {/* 📱 MOBILE CAROUSEL */}
+      <div
+        className="md:hidden relative"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="relative w-full h-[300px] rounded-xl overflow-hidden">
+          <Image
             src={images[activeIndex].src}
-            loading="lazy"
+            alt="Property Image"
+            fill
+            priority={activeIndex === 0}
+            placeholder={images[activeIndex].blurDataURL ? "blur" : "empty"}
+            blurDataURL={images[activeIndex].blurDataURL}
+            className="object-cover"
+            sizes="100vw"
             onClick={() => setLightbox(true)}
-            className="w-full h-[450px] md:h-[78vh] object-cover rounded-xl 
-            cursor-pointer transition-transform duration-500 group-hover:scale-[1.02]"
           />
-          {/* Counter */}
-          <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-            {activeIndex + 1} / {images.length}
-          </div>
-          {/* Arrows */}
-          <button
-            onClick={prev}
-            className="absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white px-3 py-2 rounded-full shadow"
-          >
-            ‹
-          </button>
-          <button
-            onClick={next}
-            className="absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white px-3 py-2 rounded-full shadow"
-          >
-            ›
-          </button>
         </div>
-        {/* THUMBNAILS */}
-        <div className="md:w-[22%] md:h-[78vh] overflow-y-auto space-y-4 pr-1">
-          {images.map((img, i) => (
+
+        {/* Dots */}
+        <div className="absolute bottom-3 w-full flex justify-center gap-1">
+          {images.map((_, i) => (
             <div
               key={i}
-              onClick={() => setActiveIndex(i)}
-              className={`cursor-pointer rounded-lg overflow-hidden border transition ${
-                activeIndex === i
-                  ? "border-[var(--color-primary)]"
-                  : "border-gray-200"
+              className={`h-1.5 rounded-full transition-all ${
+                activeIndex === i ? "w-4 bg-white" : "w-2 bg-white/50"
               }`}
-            >
-              <img
-                src={img.src}
-                loading="lazy"
-                className="h-[120px] w-full object-cover hover:scale-105 transition"
-              />
-              <p className="text-xs text-center py-1 bg-white text-gray-600">
-                {img.label}
-              </p>
-            </div>
+            />
           ))}
         </div>
       </div>
-      {/* LIGHTBOX */}
+
+      {/* 💻 DESKTOP GRID */}
+      <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-2 h-[460px] rounded-xl overflow-hidden relative">
+
+        {/* BIG IMAGE */}
+        <div className="col-span-2 row-span-2 relative group">
+          <Image
+            src={images[0]?.src}
+            alt="Main Image"
+            fill
+            priority
+            className="object-cover cursor-pointer transition duration-300 group-hover:brightness-95"
+            sizes="(min-width: 768px) 50vw"
+            onClick={() => {
+              setActiveIndex(0);
+              setLightbox(true);
+            }}
+          />
+        </div>
+
+        {/* SIDE IMAGES */}
+        {images.slice(1, 5).map((img, i) => (
+          <div key={i} className="relative group">
+            <Image
+              src={img.src}
+              alt={`Image ${i}`}
+              fill
+              className="object-cover cursor-pointer transition duration-300 group-hover:brightness-95"
+              sizes="(min-width: 768px) 25vw"
+              onClick={() => {
+                setActiveIndex(i + 1);
+                setLightbox(true);
+              }}
+            />
+          </div>
+        ))}
+
+        {/* SHOW ALL BUTTON */}
+        <button
+          onClick={() => setLightbox(true)}
+          className="absolute bottom-4 right-4 bg-white text-sm font-medium px-4 py-2 rounded-lg shadow hover:shadow-md transition"
+        >
+          Show all photos
+        </button>
+      </div>
+
+      {/* 🔍 LIGHTBOX */}
       {lightbox && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black z-50 flex flex-col"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          <button
-            onClick={() => setLightbox(false)}
-            className="absolute top-6 cursor-pointer right-6 text-white text-3xl"
-          >
-            ✕
-          </button>
-          <button
-            onClick={prev}
-            className="absolute left-6 cursor-pointer text-white text-5xl"
-          >
-            ‹
-          </button>
-          <img
-            src={images[activeIndex].src}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
-          />
-          <button
-            onClick={next}
-            className="absolute right-6 cursor-pointer text-white text-5xl"
-          >
-            ›
-          </button>
+          {/* HEADER */}
+          <div className="flex justify-between items-center p-4 text-white">
+            <span className="text-sm">
+              {activeIndex + 1} / {images.length}
+            </span>
+            <button
+              onClick={() => setLightbox(false)}
+              className="text-2xl"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* IMAGE VIEW */}
+          <div className="flex-1 flex items-center justify-center relative">
+            <button
+              onClick={prev}
+              className="absolute left-6 text-white text-4xl opacity-70 hover:opacity-100"
+            >
+              ‹
+            </button>
+
+            <div className="relative w-[90vw] h-[80vh]">
+              <Image
+                src={images[activeIndex].src}
+                alt="Preview"
+                fill
+                className="object-contain"
+                sizes="90vw"
+              />
+            </div>
+
+            <button
+              onClick={next}
+              className="absolute right-6 text-white text-4xl opacity-70 hover:opacity-100"
+            >
+              ›
+            </button>
+          </div>
+
+          {/* THUMBNAILS */}
+          <div className="flex gap-2 overflow-x-auto p-4 bg-black">
+            {images.map((img, i) => (
+              <div
+                key={i}
+                className={`relative h-16 w-24 flex-shrink-0 cursor-pointer rounded-md overflow-hidden ${
+                  activeIndex === i
+                    ? "ring-2 ring-white"
+                    : "opacity-60"
+                }`}
+                onClick={() => setActiveIndex(i)}
+              >
+                <Image
+                  src={img.src}
+                  alt={`Thumb ${i}`}
+                  fill
+                  className="object-cover"
+                  sizes="96px"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
