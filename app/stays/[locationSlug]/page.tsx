@@ -206,7 +206,7 @@ export default async function LocationPage({
 				<div className="bg-white p-5 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition flex flex-col">
 					{location.howToReach?.map((howtoReach, index) => (
 						<div className="mt-2" key={index}>
-							<h2 className="text-large font-semibold">{howtoReach.title}</h2>
+							<h2 className="text-large font-bold">{howtoReach.title}</h2>
 							<p>{howtoReach.details}
 								{" "}
 								{howtoReach.title === '3. Helicopter (Fastest & Most Scenic)' &&
