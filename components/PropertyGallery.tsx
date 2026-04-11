@@ -58,7 +58,7 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="relative mt-3 w-full h-[350px] rounded-xl overflow-hidden">
+        <div className="relative mt-3 w-full h-[390px] rounded-xl overflow-hidden">
           <Image
             src={images[activeIndex].src}
             alt="Property Image"
