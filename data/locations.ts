@@ -239,18 +239,11 @@ export const locations: Location[] = [
       },
       {
         title: `2. Private Taxi (Most Comfortable)`,
-        details: `Ideal for families or groups who want to enjoy the scenic drive at their own pace.
-						Pick-up: You can book a private cab directly from Kathgodam Railway Station or Haldwani.
-						Advantages: You can stop for breaks at scenic spots like Almora, Chaukori, or the Birthi Falls.
-						Booking: It is best to pre-book a Bolero or Innova, as they handle the mountain curves better.`
+        details: `Ideal for families or groups wanting a flexible scenic drive—book a private cab from Kathgodam or Haldwani, stop at Almora, Chaukori, or Birthi Falls, and pre-book a Bolero or Innova for better mountain handling.`
       },
       {
         title: `3. Helicopter (Fastest & Most Scenic)`,
-        details: `For those looking to save time and enjoy a bird's-eye view of the peaks.
-						Route: Flights typically operate from Haldwani (Gaulaipar Helipad) to Munsiyari.
-						Duration: The flight takes only about 45–60 minutes.
-						Availability: These services are weather-dependent and usually require
-						advance booking through the Heli-Sewa portal or the Uttarakhand Tourism website.`
+        details: `For a quick aerial trip with scenic views—flights from Haldwani (Gaulaipar Helipad) to Munsiyari take 45–60 minutes, but are weather-dependent and require advance booking via Heli-Sewa or Uttarakhand Tourism.`
       }
     ],
     taxis: [
