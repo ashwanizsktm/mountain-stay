@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 
 type ImageType = {
   src: string;
-  blurDataURL?: string; // optional for blur placeholder
+  blurDataURL?: string;
 };
 
 export default function PropertyGallery({ images }: { images: ImageType[] }) {
@@ -19,7 +19,7 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
   const prev = () =>
     setActiveIndex((prev) => (prev - 1 + images.length) % images.length);
 
-  /* Keyboard navigation */
+  /* Keyboard */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (!lightbox) return;
@@ -27,7 +27,6 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
       if (e.key === "ArrowLeft") prev();
       if (e.key === "Escape") setLightbox(false);
     };
-
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [lightbox]);
@@ -39,7 +38,6 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
-
     const diff = touchStartX.current - e.changedTouches[0].clientX;
 
     if (diff > 50) next();
@@ -49,44 +47,50 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 pt-6">
-
-      {/* 📱 MOBILE CAROUSEL */}
+    <div className="max-w-6xl mx-auto px-4 pt-20 md:pt-6">
+      {/* 📱 MOBILE (Airbnb-style slider with peek) */}
       <div
         className="md:hidden relative"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="relative w-full h-[300px] rounded-xl overflow-hidden">
-          <Image
-            src={images[activeIndex].src}
-            alt="Property Image"
-            fill
-            priority={activeIndex === 0}
-            placeholder={images[activeIndex].blurDataURL ? "blur" : "empty"}
-            blurDataURL={images[activeIndex].blurDataURL}
-            className="object-cover"
-            sizes="100vw"
-            onClick={() => setLightbox(true)}
-          />
+        <div className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-300"
+            style={{
+              transform: `translateX(-${activeIndex * 85}%)`,
+            }}
+          >
+            {images.map((img, i) => (
+              <div
+                key={i}
+                className="min-w-[85%] mr-2 relative h-[320px] rounded-xl overflow-hidden"
+              >
+                <Image
+                  src={img.src}
+                  alt={`Image ${i}`}
+                  fill
+                  className="object-cover"
+                  sizes="85vw"
+                  priority={i === 0}
+                  onClick={() => {
+                    setActiveIndex(i);
+                    setLightbox(true);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Dots */}
-        <div className="absolute bottom-3 w-full flex justify-center gap-1">
-          {images.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all ${
-                activeIndex === i ? "w-4 bg-white" : "w-2 bg-white/50"
-              }`}
-            />
-          ))}
+        {/* Top Right Counter (Airbnb style) */}
+        <div className="absolute top-3 right-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+          {activeIndex + 1} / {images.length}
         </div>
       </div>
 
       {/* 💻 DESKTOP GRID */}
       <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-2 h-[460px] rounded-xl overflow-hidden relative">
-
         {/* BIG IMAGE */}
         <div className="col-span-2 row-span-2 relative group">
           <Image
@@ -94,8 +98,8 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
             alt="Main Image"
             fill
             priority
-            className="object-cover cursor-pointer transition duration-300 group-hover:brightness-95"
-            sizes="(min-width: 768px) 50vw"
+            className="object-cover cursor-pointer group-hover:brightness-95 transition"
+            sizes="50vw"
             onClick={() => {
               setActiveIndex(0);
               setLightbox(true);
@@ -110,8 +114,8 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
               src={img.src}
               alt={`Image ${i}`}
               fill
-              className="object-cover cursor-pointer transition duration-300 group-hover:brightness-95"
-              sizes="(min-width: 768px) 25vw"
+              className="object-cover cursor-pointer group-hover:brightness-95 transition"
+              sizes="25vw"
               onClick={() => {
                 setActiveIndex(i + 1);
                 setLightbox(true);
@@ -120,12 +124,25 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
           </div>
         ))}
 
-        {/* SHOW ALL BUTTON */}
+        {/* Airbnb Grid Icon Button */}
         <button
           onClick={() => setLightbox(true)}
-          className="absolute bottom-4 right-4 bg-white text-sm font-medium px-4 py-2 rounded-lg shadow hover:shadow-md transition"
+          className="absolute bottom-4 right-4 bg-white p-2 rounded-lg shadow hover:shadow-md transition flex items-center gap-2"
         >
-          Show all photos
+          {/* Grid Icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
         </button>
       </div>
 
@@ -138,22 +155,15 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
         >
           {/* HEADER */}
           <div className="flex justify-between items-center p-4 text-white">
-            <span className="text-sm">
-              {activeIndex + 1} / {images.length}
-            </span>
-            <button
-              onClick={() => setLightbox(false)}
-              className="text-2xl"
-            >
-              ✕
-            </button>
+            <span>{activeIndex + 1} / {images.length}</span>
+            <button onClick={() => setLightbox(false)}>✕</button>
           </div>
 
-          {/* IMAGE VIEW */}
+          {/* IMAGE */}
           <div className="flex-1 flex items-center justify-center relative">
             <button
               onClick={prev}
-              className="absolute left-6 text-white text-4xl opacity-70 hover:opacity-100"
+              className="absolute left-6 text-white text-4xl"
             >
               ‹
             </button>
@@ -164,13 +174,12 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
                 alt="Preview"
                 fill
                 className="object-contain"
-                sizes="90vw"
               />
             </div>
 
             <button
               onClick={next}
-              className="absolute right-6 text-white text-4xl opacity-70 hover:opacity-100"
+              className="absolute right-6 text-white text-4xl"
             >
               ›
             </button>
@@ -181,19 +190,16 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
             {images.map((img, i) => (
               <div
                 key={i}
-                className={`relative h-16 w-24 flex-shrink-0 cursor-pointer rounded-md overflow-hidden ${
-                  activeIndex === i
-                    ? "ring-2 ring-white"
-                    : "opacity-60"
-                }`}
                 onClick={() => setActiveIndex(i)}
+                className={`relative h-16 w-24 flex-shrink-0 rounded-md overflow-hidden cursor-pointer ${
+                  activeIndex === i ? "ring-2 ring-white" : "opacity-60"
+                }`}
               >
                 <Image
                   src={img.src}
                   alt={`Thumb ${i}`}
                   fill
                   className="object-cover"
-                  sizes="96px"
                 />
               </div>
             ))}
