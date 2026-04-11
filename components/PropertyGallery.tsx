@@ -53,35 +53,49 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
   return (
     <div className="max-w-6xl mx-auto px-4 pt-6">
 
-      {/* 📱 MOBILE */}
-      <div className="md:hidden mt-3 space-y-2">
-        
-        {/* BIG IMAGE */}
-        <div
-          className="relative w-full h-[380px] rounded-xl overflow-hidden"
-          onClick={() => {
-            setActiveIndex(0);
-            setLightbox(true);
-          }}
-        >
-          <Image
-            src={images[0]?.src}
-            alt="Main Image"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
+      {/* 📱 MOBILE HYBRID (Carousel + Grid) */}
+      <div className="md:hidden mt-3 space-y-3">
 
+        {/* 🔄 CAROUSEL */}
+        <div
+          className="relative"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="relative w-full h-[380px] rounded-xl overflow-hidden">
+            <Image
+              src={images[activeIndex].src}
+              alt="Property Image"
+              fill
+              priority={activeIndex === 0}
+              className="object-cover"
+              sizes="100vw"
+              onClick={() => setLightbox(true)}
+            />
+          </div>
+
+          {/* Counter */}
           <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-            1 / {images.length}
+            {activeIndex + 1} / {images.length}
+          </div>
+
+          {/* Dots */}
+          <div className="absolute bottom-3 w-full flex justify-center gap-1">
+            {images.map((_, i) => (
+              <div
+                key={i}
+                className={`h-1.5 rounded-full transition-all ${activeIndex === i ? "w-4 bg-white" : "w-2 bg-white/50"
+                  }`}
+              />
+            ))}
           </div>
         </div>
 
-        {/* GRID */}
+        {/* 🧱 GRID BELOW */}
         <div className="grid grid-cols-2 gap-2">
           {images.slice(1, 5).map((img, i) => {
             const isLast = i === 3;
+            const remainingCount = images.length - 5;
 
             return (
               <div
@@ -99,14 +113,12 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
                   className="object-cover"
                   sizes="50vw"
                 />
-
                 {/* +COUNT OVERLAY */}
                 {isLast && remainingCount > 0 && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-lg font-semibold">
                     +{remainingCount}
                   </div>
                 )}
-
                 {/* GRID ICON */}
                 {isLast && (
                   <button
@@ -124,7 +136,6 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
           })}
         </div>
       </div>
-
       {/* 💻 DESKTOP */}
       <div className="hidden mt-3 md:grid grid-cols-4 grid-rows-2 gap-2 h-[460px] rounded-xl overflow-hidden">
         {/* BIG IMAGE */}
@@ -224,9 +235,8 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
               <div
                 key={i}
                 onClick={() => setActiveIndex(i)}
-                className={`relative h-16 w-24 flex-shrink-0 rounded-md overflow-hidden cursor-pointer ${
-                  activeIndex === i ? "ring-2 ring-white" : "opacity-60"
-                }`}
+                className={`relative h-16 w-24 flex-shrink-0 rounded-md overflow-hidden cursor-pointer ${activeIndex === i ? "ring-2 ring-white" : "opacity-60"
+                  }`}
               >
                 <Image src={img.src} alt={`Thumb ${i}`} fill className="object-cover" />
               </div>
