@@ -216,7 +216,7 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
               ‹
             </button>
 
-            <div className="relative w-[90vw] h-[80vh]">
+            <div className="relative w-[96vw] h-[75vh]">
               <Image
                 src={images[activeIndex].src}
                 alt="Preview"
