@@ -102,13 +102,6 @@ export default async function PropertyPage({
         }}
       />
       <section className="bg-[var(--color-soft)] min-h-screen pt-6 pb-20 relative">
-        {/* Back Button */}
-        <Link
-          href="/stays"
-          className="absolute top-4 left-6 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/90 shadow hover:shadow-md"
-        >
-          ←
-        </Link>
         {/* Gallery */}
         <PropertyGallery images={property.images} />
         <div className="max-w-6xl mx-auto px-6 mt-8">

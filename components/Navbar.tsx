@@ -7,14 +7,14 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-white shadow-sm fixed top-0 z-50">
+    <nav className="w-full bg-gradient-to-br from-[var(--color-primary)] to-[#1f2937] text-white shadow-sm fixed top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-xl font-semibold text-primary">
+        <Link href="/" className="text-xl font-semibold">
           Mountain Stays
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex gap-8 text-gray-700">
+        <div className="hidden md:flex gap-8">
           <Link href="/">Home</Link>
           <Link href="/stays">Stays</Link>
           <Link href="/about">About</Link>
