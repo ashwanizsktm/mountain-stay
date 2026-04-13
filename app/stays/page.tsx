@@ -36,7 +36,7 @@ export default function StaysPage() {
   }, [activeFilter, sortOption]);
 
   return (
-    <section className="bg-[var(--color-soft)] min-h-screen py-20">
+    <section className="bg-[var(--color-soft)] min-h-screen py-10">
       {/* HERO SECTION */}
       <div className="relative h-[460px] md:h-[420px]">
         <Image
