@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 bg-gradient-to-br from-[var(--color-primary)] to-[#1f2937] text-white">
+    <footer className="bg-gradient-to-br from-[var(--color-primary)] to-[#1f2937] text-white">
 
       <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-12">
 

@@ -49,7 +49,7 @@ export default function FAQPage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative h-[320px] flex items-center justify-center text-white"
+        className="relative h-[420px] flex items-center justify-center text-white"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?q=80&w=2070&auto=format&fit=crop')",
           backgroundSize: "cover",

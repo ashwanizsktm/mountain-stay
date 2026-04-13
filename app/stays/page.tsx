@@ -36,7 +36,7 @@ export default function StaysPage() {
   }, [activeFilter, sortOption]);
 
   return (
-    <section className="bg-[var(--color-soft)] min-h-screen py-10">
+    <section className="bg-[var(--color-soft)] min-h-screen py-20">
       {/* HERO SECTION */}
       <div className="relative h-[460px] md:h-[420px]">
         <Image
@@ -48,13 +48,6 @@ export default function StaysPage() {
           alt="Mountain view stays"
           className="absolute object-cover"
         />
-
-        {/* <img
-          src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600&q=80"
-          alt="Mountain view stays"
-          className="absolute inset-0 w-full h-full object-cover"
-        /> */}
-
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent
           flex flex-col items-center justify-center text-center px-6">
           {/* HERO TEXT */}
@@ -71,7 +64,7 @@ export default function StaysPage() {
           </div>
 
           {/* EXPLORE BY LOCATION */}
-          <div className="w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4">
             {locations.map((location) => (
               <Link
                 key={location.slug}
@@ -80,10 +73,19 @@ export default function StaysPage() {
               >
                 <div className="h-24">
                   <img
-                    src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80"
+                    src="/images/locations/munsiyari.webp"
                     alt={location.name}
                     className="w-full h-full object-cover"
                   />
+                  {/* <Image
+                    src="/images/locations/munsiyari.webp"
+                    alt={location.name}
+                    fill
+                    priority
+                    sizes="90vw"
+                    quality={90}
+                    className="object-cover"
+                  /> */}
                 </div>
                 <div className="p-2 text-center">
                   <h3 className="text-sm font-medium text-[var(--color-primary)]">

@@ -11,21 +11,21 @@ export default function AboutPage() {
 	return (
 		<div className="min-h-screen bg-gray-50">
 			{/* Hero with Background Image */}
-			<section className="relative h-[60vh] md:h-[72vh] flex items-center justify-center text-center text-white">
+			<section className="relative h-[65vh] md:h-[75vh] flex items-center justify-center text-center text-white">
 				{/* Background Image */}
-				<div className="absolute inset-0 h-[440px] md:h-[420px]">
+				<div className="absolute inset-0">
 					<Image
 						fill
 						priority
 						sizes="100vw"
 						quality={90}
-						src="/images/Hero/about-1.webp"
+						src="/images/Hero/stays.webp"
 						alt="Mountain view stays"
 						className="absolute object-cover"
 					/>
 				</div>
 				{/* Dark Overlay */}
-				<div className="absolute inset-0 bg-black/50" />
+				<div className="absolute inset-0 bg-black/30" />
 				{/* Content */}
 				<div className="relative z-10 px-6 max-w-3xl">
 					<h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -64,7 +64,7 @@ export default function AboutPage() {
 						className="h-80 rounded-xl bg-cover bg-center shadow-md"
 						style={{
 							backgroundImage:
-								"url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')",
+								"url('/images/Hero/about-guest.webp')",
 						}}
 					/>
 				</div>

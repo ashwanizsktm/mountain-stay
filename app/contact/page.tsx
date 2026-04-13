@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
 	title: "Contact Us",
@@ -11,17 +12,21 @@ export default function ContactPage() {
 		<div className="min-h-screen bg-gray-50">
 			{/* Hero */}
 			{/* Hero with Background Image */}
-			<section className="relative h-[70vh] flex items-center justify-center text-center text-white">
+			<section className="relative h-[70vh] md:h-[75vh] flex items-center justify-center text-center text-white">
 				{/* Background Image */}
-				<div
-					className="absolute inset-0 bg-cover bg-center"
-					style={{
-						backgroundImage:
-							"url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop')",
-					}}
-				/>
+				<div className="absolute inset-0">
+					<Image
+						fill
+						priority
+						sizes="100vw"
+						quality={90}
+						src="/images/Hero/stays.webp"
+						alt="Mountain view stays"
+						className="absolute object-cover"
+					/>
+				</div>
 				{/* Dark Overlay */}
-				<div className="absolute inset-0 bg-black/50" />
+				<div className="absolute inset-0 bg-black/30" />
 				{/* Content */}
 				<div className="relative z-10 px-6 max-w-3xl">
 					<h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
