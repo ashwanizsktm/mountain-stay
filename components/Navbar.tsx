@@ -33,7 +33,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-white shadow-md px-4 pb-4 flex flex-col gap-4">
+        <div className="md:hidden bg-gradient-to-br from-[var(--color-primary)] to-[#1f2937] text-white shadow-md px-4 pb-4 flex flex-col gap-4">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
           <Link href="/stays" onClick={() => setOpen(false)}>Stays</Link>
           <Link href="/about" onClick={() => setOpen(false)}>About</Link>
