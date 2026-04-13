@@ -52,9 +52,8 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-6">
-
       {/* 📱 MOBILE HYBRID (Carousel + Grid) */}
-      <div className="md:hidden mt-3 space-y-3">
+      <div className="md:hidden mt-4 space-y-3">
 
         {/* 🔄 CAROUSEL */}
         <div
@@ -206,16 +205,15 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="flex justify-between items-center p-4 text-white">
+          <div className="flex justify-between items-center  p-4 text-white">
             <span>{activeIndex + 1} / {images.length}</span>
-            <button onClick={() => setLightbox(false)}>✕</button>
+            <button className="cursor-pointer" onClick={() => setLightbox(false)}>✕</button>
           </div>
 
           <div className="flex-1 flex items-center justify-center relative">
-            <button onClick={prev} className="absolute cursor-pointer left-6 text-white text-4xl">
+            <button onClick={prev} className="absolute hidden md:block cursor-pointer left-6 text-white text-4xl">
               ‹
             </button>
-
             <div className="relative w-[96vw] h-[75vh]">
               <Image
                 src={images[activeIndex].src}
@@ -225,7 +223,7 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
               />
             </div>
 
-            <button onClick={next} className="absolute cursor-pointer right-6 text-white text-4xl">
+            <button onClick={next} className="absolute hidden md:block cursor-pointer right-6 text-white text-4xl">
               ›
             </button>
           </div>
