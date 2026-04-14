@@ -1,3 +1,4 @@
+import ImageCarousel from "@/components/ImageCarousel";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -8,6 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+	const aboutCarouselImages = [
+    "/images/Hero/about-guest.webp",
+    "/images/Hero/about.webp",
+    "/images/Hero/about-banner.jpg",
+  ];
 	return (
 		<div className="min-h-screen bg-gray-50">
 			{/* Hero with Background Image */}
@@ -60,16 +66,10 @@ export default function AboutPage() {
 					</div>
 
 					{/* Image */}
-					<div
-						className="h-80 rounded-xl bg-cover bg-center shadow-md"
-						style={{
-							backgroundImage:
-								"url('/images/Hero/about-guest.webp')",
-						}}
-					/>
+					<ImageCarousel images={aboutCarouselImages} />
 				</div>
 				{/* Testimonials Section */}
-				<section className="bg-white py-20 px-6">
+				<section className="bg-white py-10 px-6 mt-2">
 					<div className="max-w-6xl mx-auto text-center">
 
 						<h2 className="text-3xl font-bold text-[var(--color-primary)] mb-4">
@@ -80,7 +80,6 @@ export default function AboutPage() {
 						</p>
 
 						<div className="grid md:grid-cols-3 gap-8">
-
 							{/* Testimonial 1 */}
 							<div className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
 								<div className="text-yellow-400 text-lg mb-3">★★★★★</div>
