@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { AlertCircle } from "lucide-react";
 export default function BookingCard({
   propertyName,
   price,
@@ -14,7 +15,9 @@ export default function BookingCard({
   const [includeVeg, setIncludeVeg] = useState(false);
   const [includeNonVeg, setIncludeNonVeg] = useState(false);
   const [foodGuests, setFoodGuests] = useState(2);
-
+  const [error, setError] = useState("");
+  const checkInRef = useRef<HTMLInputElement>(null);
+  const checkOutRef = useRef<HTMLInputElement>(null);
   const today = new Date().toISOString().split("T")[0];
 
   /* -------------------------
@@ -34,6 +37,13 @@ export default function BookingCard({
     }).format(value);
   };
 
+  /* Remove shake after animation */
+  // useEffect(() => {
+  //   if (shake) {
+  //     const t = setTimeout(() => setShake(false), 400);
+  //     return () => clearTimeout(t);
+  //   }
+  // }, [shake]);
   /* -------------------------
      Conversion Triggers
   --------------------------*/
@@ -69,17 +79,13 @@ export default function BookingCard({
 
   const extraGuests = Math.max(0, guests - rooms * 2);
   const extraGuestPricePerNight = price / 4;
-
   const extraGuestCost = extraGuests * extraGuestPricePerNight * nights;
 
   // Ensure foodGuests never exceeds guests
   const safeFoodGuests = Math.min(foodGuests, guests);
-
   const vegCost = includeVeg ? 500 * safeFoodGuests * nights : 0;
   const nonVegCost = includeNonVeg ? 800 * safeFoodGuests * nights : 0;
-
   const subtotal = baseCost + extraGuestCost + vegCost + nonVegCost;
-
   const originalPrice = Math.floor(subtotal * 1.25);
 
   const discountAmount = Math.floor(
@@ -97,11 +103,8 @@ Check-out: ${checkOut || "Not selected"}
 Guests: ${guests}
 Rooms: ${rooms}
 Nights: ${nights}
-
 Estimated price: ₹${formatPrice(finalTotal)}
-
 Please share availability.`;
-
   const whatsappLink = `https://wa.me/918296443263?text=${encodeURIComponent(
     message
   )}`;
@@ -129,28 +132,45 @@ Please share availability.`;
 
         {/* DATE PICKERS */}
         <div className="grid grid-cols-2 border rounded-lg overflow-hidden mb-2">
-          <label className="p-1 border-r cursor-pointer block">
+          <label className={`p-1 border-r cursor-pointer ${error && !checkIn ? "bg-red-50 border-red-400" : ""
+            }`}>
             <span className="text-xs text-gray-500">Check-in</span>
             <input
+              ref={checkInRef}
               type="date"
               min={today}
               value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
+              onChange={(e) => {
+                setCheckIn(e.target.value);
+                setError("");
+              }}
               className="w-full bg-transparent outline-none cursor-pointer"
             />
           </label>
           {/* Check-out */}
-          <label className="p-1 cursor-pointer block">
+          <label className={`p-1 cursor-pointer ${error && !checkOut ? "bg-red-50 border-red-400" : ""
+            }`}>
             <span className="text-xs text-gray-500">Check-out</span>
             <input
+              ref={checkOutRef}
               type="date"
               min={checkIn || today}
               value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
+              onChange={(e) => {
+                setCheckOut(e.target.value);
+                setError("");
+              }}
               className="w-full bg-transparent outline-none cursor-pointer"
             />
           </label>
         </div>
+        {/* ERROR */}
+        {error && (
+          <p className="text-xs text-red-600 flex text-start mb-2 font-medium">
+           <span><AlertCircle className="w-4 h-4" /></span>
+            <span className="ml-1">{error}</span>
+          </p>
+        )}
         {/* GUESTS */}
         <div className="mb-3">
           <label className="text-xs text-gray-500">Guests</label>
@@ -274,7 +294,24 @@ Please share availability.`;
         <a
           href={whatsappLink}
           target="_blank"
-          className="block text-center bg-[var(--color-primary)] text-white py-2 rounded-lg"
+          onClick={(e) => {
+            if (!checkIn) {
+              e.preventDefault();
+              setError("Please select check-in date");
+              checkInRef.current?.focus();
+              return;
+            }
+
+            if (!checkOut) {
+              e.preventDefault();
+              setError("Please select check-out date");
+              checkOutRef.current?.focus();
+              return;
+            }
+
+            setError("");
+          }}
+          className="block text-center bg-[var(--color-primary)] text-white py-2 rounded-lg hover:opacity-90 transition"
         >
           Enquire on WhatsApp
         </a>

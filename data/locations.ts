@@ -92,7 +92,6 @@ export const locations: Location[] = [
           count: 6
         }
       },
-
       {
         slug: "himalayan-peace-stay",
         name: "Himalayan Wooden stay",
