@@ -5,27 +5,23 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-   const menuRef = useRef<HTMLDivElement | null>(null);
-
-  // Close on outside click
+   const navRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        open &&
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
-      ) {
+    if (!open) return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!navRef.current) return;
+      if (!navRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [open]);
-  
+
   return (
-    <nav className="w-full bg-gradient-to-br from-[var(--color-primary)] to-[#1f2937] text-white shadow-sm fixed top-0 z-50">
+    <nav ref={navRef} className="w-full bg-gradient-to-br from-[var(--color-primary)] to-[#1f2937] text-white shadow-sm fixed top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-xl font-semibold">
           Mountain Stays
@@ -43,7 +39,10 @@ export default function Navbar() {
         {/* Mobile Button */}
         <button
           className="md:hidden text-3xl"
-          onClick={() => setOpen(!open)}
+          onClick={(e) => {
+            e.stopPropagation(); 
+            setOpen((prev) => !prev);
+          }}
         >
           {open ? '✕' : '☰'}
         </button>
