@@ -19,7 +19,7 @@ export const locations: Location[] = [
       {
         slug: "panchachuli-view-homestay",
         name: "Panchachuli View Homestay",
-        price: 2500,
+        price: 1950,
         description:
           "Wake up to breathtaking views of the Panchachuli peaks.",
         coupleFriendly: true,
@@ -154,7 +154,7 @@ export const locations: Location[] = [
       {
         slug: "himalayan-nature-stay",
         name: "Himalayan Nature stay",
-        price: 2600,
+        price: 1850,
         description:
           "A calm retreat nestled in the mountains.",
         coupleFriendly: true,
