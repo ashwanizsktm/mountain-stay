@@ -5,6 +5,7 @@ import PropertyCard from "@/components/PropertyCard";
 import { locations } from "@/data/locations";
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 
 export default function StaysPage() {
   const [activeFilter, setActiveFilter] = useState<

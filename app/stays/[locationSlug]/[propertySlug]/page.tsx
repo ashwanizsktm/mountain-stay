@@ -33,21 +33,38 @@ export async function generateMetadata({
     description:
       property.seo?.description || property.description,
 
+    keywords: [
+      `${property.name}`,
+      `${location.name} homestay`,
+      `stay in ${location.name}`,
+      ...(property.seo?.keywords || []),
+    ],
+
+    canonical: `https://yourdomain.com/stays/${location.slug}/${property.slug}`,
+
     openGraph: {
       title:
         property.seo?.title ||
         `${property.name} in ${location.name}`,
       description: property.description,
+      url: `https://yourdomain.com/stays/${location.slug}/${property.slug}`,
+      type: "website",
+      locale: "en_IN",
       images: [
         {
           url: property.images?.[0]?.src || "",
+          width: 1200,
+          height: 630,
+          alt: property.name,
         },
       ],
-      keywords: [
-        `${property.name}`,
-        `${location.name} homestay`,
-        `stay in ${location.name}`,
-      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: property.seo?.title || property.name,
+      description: property.description,
+      images: [property.images?.[0]?.src || ""],
     },
   };
 }
@@ -70,6 +87,43 @@ export default async function PropertyPage({
 
   return (
     <>
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://yourdomain.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "All Stays",
+                "item": "https://yourdomain.com/stays"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": location.name,
+                "item": `https://yourdomain.com/stays/${location.slug}`
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": property.name,
+                "item": `https://yourdomain.com/stays/${location.slug}/${property.slug}`
+              }
+            ]
+          })
+        }}
+      />
+
       {/* SEO CONTENT */}
       <script
         type="application/ld+json"

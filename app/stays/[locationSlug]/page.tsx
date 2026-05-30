@@ -27,17 +27,31 @@ export async function generateMetadata({
 		title: location.seo.title,
 		description: location.seo.description,
 		keywords: location.seo.keywords,
+		canonical: `https://yourdomain.com/stays/${location.slug}`,
 
 		openGraph: {
 			title: location.seo.title,
 			description: location.seo.description,
+			url: `https://yourdomain.com/stays/${location.slug}`,
+			type: "website",
+			locale: "en_IN",
 			images: [
 				{
 					url:
 						location.properties?.[0]?.images?.[0]?.src ||
 						"",
+					width: 1200,
+					height: 630,
+					alt: location.name,
 				},
 			],
+		},
+
+		twitter: {
+			card: "summary_large_image",
+			title: location.seo.title,
+			description: location.seo.description,
+			images: [location.properties?.[0]?.images?.[0]?.src || ""],
 		},
 	};
 }
@@ -55,6 +69,36 @@ export default async function LocationPage({
 	if (!location) notFound();
 
 	return (<section className="bg-[var(--color-soft)] min-h-screen mt-12 pb-16">
+		{/* BreadcrumbList Schema */}
+		<script
+			type="application/ld+json"
+			dangerouslySetInnerHTML={{
+				__html: JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "https://yourdomain.com"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "All Stays",
+							"item": "https://yourdomain.com/stays"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": location.name,
+							"item": `https://yourdomain.com/stays/${location.slug}`
+						}
+					]
+				})
+			}}
+		/>
 		{/* HERO SECTION */}
 		<div className="relative h-[340px] md:h-[430px]">
 			{/* HERO IMAGE */}

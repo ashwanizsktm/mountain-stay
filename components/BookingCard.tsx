@@ -144,6 +144,7 @@ Please share availability.`;
                 setCheckIn(e.target.value);
                 setError("");
               }}
+              onClick={() => checkInRef.current?.showPicker?.()}
               className="w-full bg-transparent outline-none cursor-pointer"
             />
           </label>
@@ -160,6 +161,7 @@ Please share availability.`;
                 setCheckOut(e.target.value);
                 setError("");
               }}
+              onClick={() => checkOutRef.current?.showPicker?.()}
               className="w-full bg-transparent outline-none cursor-pointer"
             />
           </label>

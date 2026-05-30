@@ -2,9 +2,29 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-	title: "Contact Us",
+	title: "Contact Us | Mountain Stays",
 	description:
-		"Get in touch with Mountain Stays for bookings, queries, or partnership opportunities.",
+		"Get in touch with Mountain Stays for bookings, queries, partnership opportunities, or to share feedback about our mountain homestays.",
+	keywords: [
+		"contact mountain stays",
+		"mountain stays booking",
+		"homestay partnership",
+		"mountain stays support",
+		"munsiyari homestay contact",
+	],
+	openGraph: {
+		title: "Contact Us | Mountain Stays",
+		description: "Get in touch with Mountain Stays for bookings and queries.",
+		url: "https://yourdomain.com/contact",
+		type: "website",
+		locale: "en_IN",
+	},
+	twitter: {
+		card: "summary",
+		title: "Contact Mountain Stays",
+		description: "Reach out to us for bookings and inquiries",
+	},
+	canonical: "https://yourdomain.com/contact",
 };
 
 export default function ContactPage() {

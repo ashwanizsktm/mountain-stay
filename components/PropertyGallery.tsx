@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { LayoutGrid } from "lucide-react";
+import RoundedGridIcon from "./RoundedGridIcon";
 
 type ImageType = {
   src: string;
@@ -125,9 +125,9 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
                       e.stopPropagation();
                       setLightbox(true);
                     }}
-                    className="absolute bottom-2 right-2 bg-white/90 backdrop-blur p-2 rounded-lg shadow hover:scale-105 transition"
+                    className="absolute bottom-2 right-2 p-2 rounded-lg hover:scale-105 transition"
                   >
-                    <LayoutGrid className="w-5 h-5" />
+                    <RoundedGridIcon className="w-5 h-5 text-white" />
                   </button>
                 )}
               </div>
@@ -188,9 +188,9 @@ export default function PropertyGallery({ images }: { images: ImageType[] }) {
                     e.stopPropagation();
                     setLightbox(true);
                   }}
-                  className="absolute cursor-pointer bottom-3 right-3 bg-white p-2 rounded-lg shadow hover:scale-105 transition"
+                  className="absolute cursor-pointer bottom-3 right-3 p-2 rounded-lg hover:scale-105 transition"
                 >
-                  <LayoutGrid className="w-5 h-5" />
+                  <RoundedGridIcon className="w-5 h-5 text-white" />
                 </button>
               )}
             </div>

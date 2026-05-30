@@ -4,8 +4,10 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
+        disallow: "/admin",
       },
     ],
-    sitemap: "https://yourdomain.com/sitemap.xml", // change the domin later
+    sitemap: "https://yourdomain.com/sitemap.xml", // Update domain
+    host: "https://yourdomain.com", // Update domain
   };
 }

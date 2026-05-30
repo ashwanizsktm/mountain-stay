@@ -3,9 +3,29 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-	title: "About Us",
+	title: "About Us | Mountain Stays",
 	description:
-		"Learn about Mountain Stays and our mission to connect travelers with authentic homestays in the Himalayas.",
+		"Learn about Mountain Stays and our mission to connect travelers with authentic homestays in the Himalayas. Discover our story and values.",
+	keywords: [
+		"about mountain stays",
+		"mountain stays story",
+		"homestay booking platform",
+		"himalayan tourism",
+		"authentic homestays",
+	],
+	openGraph: {
+		title: "About Us | Mountain Stays",
+		description: "Learn about Mountain Stays and our mission to connect travelers with authentic homestays in the Himalayas.",
+		url: "https://yourdomain.com/about",
+		type: "website",
+		locale: "en_IN",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "About Mountain Stays",
+		description: "Learn our story and mission",
+	},
+	canonical: "https://yourdomain.com/about",
 };
 
 export default function AboutPage() {
