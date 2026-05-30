@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import FAQClient, { faqData } from "./faq-client";
+import FAQClient from "./faq-client";
+import { faqData } from "@/data/faq";
 
 export const metadata: Metadata = {
   title: "FAQs | Mountain Stays",
