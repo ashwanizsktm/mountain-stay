@@ -27,7 +27,9 @@ export async function generateMetadata({
 		title: location.seo.title,
 		description: location.seo.description,
 		keywords: location.seo.keywords,
-		canonical: `https://yourdomain.com/stays/${location.slug}`,
+		alternates: {
+			canonical: `https://yourdomain.com/stays/${location.slug}`,
+		},
 
 		openGraph: {
 			title: location.seo.title,

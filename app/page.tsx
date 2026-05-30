@@ -43,7 +43,9 @@ export const metadata: Metadata = {
     images: ["https://yourdomain.com/og-image.jpg"],
   },
 
-  canonical: "https://yourdomain.com",
+  alternates: {
+    canonical: "https://yourdomain.com",
+  },
 };
 
 export default function Home() {

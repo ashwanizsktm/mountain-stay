@@ -40,7 +40,9 @@ export async function generateMetadata({
       ...(property.seo?.keywords || []),
     ],
 
-    canonical: `https://yourdomain.com/stays/${location.slug}/${property.slug}`,
+    alternates: {
+      canonical: `https://yourdomain.com/stays/${location.slug}/${property.slug}`,
+    },
 
     openGraph: {
       title:

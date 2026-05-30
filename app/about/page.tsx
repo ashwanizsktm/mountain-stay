@@ -25,7 +25,9 @@ export const metadata: Metadata = {
 		title: "About Mountain Stays",
 		description: "Learn our story and mission",
 	},
-	canonical: "https://yourdomain.com/about",
+	alternates: {
+		canonical: "https://yourdomain.com/about",
+	},
 };
 
 export default function AboutPage() {

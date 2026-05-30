@@ -24,7 +24,9 @@ export const metadata: Metadata = {
 		title: "Contact Mountain Stays",
 		description: "Reach out to us for bookings and inquiries",
 	},
-	canonical: "https://yourdomain.com/contact",
+	alternates: {
+		canonical: "https://yourdomain.com/contact",
+	},
 };
 
 export default function ContactPage() {
